@@ -36,7 +36,7 @@
 	quit() takes a string as argument and print it along
 	along with the error message. 
 */
-void quit(const char *s)
+void quit(const char *msg)
 {
 	perror(msg);
 	exit(1);
@@ -46,7 +46,7 @@ void quit(const char *s)
 */
 void exitMessage(void)
 {
-	printf("devChat has beeb closed\n\n");
+	printf("devChat has been closed\n\n");
 }
 //struct  hostent {
   //           char    *h_name;        /* official name of host */
@@ -55,31 +55,25 @@ void exitMessage(void)
         //     int     h_length;       /* length of address */
           //   char    **h_addr_list;  /* list of addresses from name server */
      //};
-void print(struct hostent t)
+void print(struct hostent *t)
 {
-	printf("Name of host");
-	puts(t.h_name);
-	puts("alias list");
-	int i = 0;
-	while(t.h_aliases[i])
-	{
-		puts(t.h_aliases[i]);
-		++i;
-	}
-	printf("Address type %i, host_length %i\n", t.h_addrtype,t.h_length);
-	i = 0;
-	printf("List of address from name server : ");
-	while(t.h_addr_list[i])
-	{
-		puts(t.h_addr_list[i]);
-		++i;
-	}
+	printf("Official name is: %s\n", t->h_name);
+    printf("    IP addresses: ");
+    struct in_addr **addr_list = (struct in_addr **)t->h_addr_list;
+    for(int i = 0; addr_list[i] != NULL; ++i)
+ 	{
+        puts(inet_ntoa(*addr_list[i]));
+    }
+    printf("\n");
 
 }
 int main( int argc, char ** argv)
 {
+	// exitMessage will be called when the program terminates
+	atexit(exitMessage);
+
 	int port = 6667, sfd, cfd;
-	char options, *usage = " irc -p [port]", *host = "162.246.59.191";
+	char options, *usage = " irc -p [port]", *host = "94.125.182.252";
 	// Intercept command-line options`
 	while ((options = getopt(argc,argv,"hp:"))!= -1)
 		switch(options)
@@ -98,17 +92,29 @@ int main( int argc, char ** argv)
 	{
 		quit("can't create socket ");
 	}
-	struct hostent *hostip = gethZostbyname(host);
+	struct hostent *hostip = gethostbyname("irc.freenode.net");
 	if (hostip == NULL)
 	{
 		herror(host);
 		quit("gethostbyname");
 	}
-	print(*hostip);	
+	print(hostip);	
 	struct sockaddr_in ser;
 	socklen_t length;
 	ser.sin_family = PF_INET;
 	ser.sin_port = htons(port);
-	//ser.sin_addr.s_addr = inetaddr ;
+	ser.sin_addr.s_addr = inet_addr(host);
+	if(connect(sfd,(struct sockaddr*)&ser, sizeof(ser)) == -1)
+	{
+		quit(NULL);
+	}
+	else
+		printf("YAY we are connec to the server");
+	char buffer[128];
+	while(read(sfd,&buffer,128)!=-1)
+	{
+		puts(buffer);
+	}
+	close(sfd);
 	return 0;
 }
