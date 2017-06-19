@@ -1,0 +1,34 @@
+What is devChat?
+=====
+devChat is an open source IRC client for the UNIX terminal. It is intended to be very lightweight and easy to use while not sacrificing on features. It is under development.
+
+Forking
+=====
+Please feel free to fork the repo to add anything you want or fix any bugs you've spotted. I'd also very much appreciate if you could send a pull request to fix it my sources as well.
+
+License
+=====
+    HoloIRC - Copyright (c) Lalit Maganti 2013-2014
+
+    HoloIRC is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    HoloIRC is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License
+    along with HoloIRC.  If not, see <http://www.gnu.org/licenses/>.
+
+
+TODO
+====
+- [ ] Fix connection issues
+- [ ] Add more options in general. More specifically
+    - [ ] ability to connect to bouncer servers
+    - [ ] ability to customize colours
+
+Credits
+=====
+    This project depends on several libraries each of which have their own license and deserve sincere thanks:
